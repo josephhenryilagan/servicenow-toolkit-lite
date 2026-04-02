@@ -1,4 +1,4 @@
-javascript: (function () {
+(function () {
     if (window.location.hostname.endsWith('service-now.com')) {
         const currentOverlay = document.getElementById('sntk-modal-overlay');
         if (currentOverlay) {

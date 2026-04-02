@@ -231,6 +231,19 @@
                     return false;
                 }
             }
+            if (suggestions.length < 6 && TABLE_REGEX.test(`${query}_list.do`)) {
+                for (const value of suffixes) {
+                    if (!suggestions.includes(`${query}${value}`)) {
+                        suggestions.push(`${query}${value}`);
+                        const option = document.createElement('option');
+                        option.value = `${query}${value}`;
+                        commonQueries.appendChild(option);
+                        if (suggestions.length == 6) {
+                            return false;
+                        }
+                    }
+                }
+            }
         }
 
         loadCommonQueries();
@@ -254,7 +267,7 @@
 
         const debouncedLoadCommonQueries = debounce(loadCommonQueries, 100);
         globalSearch.oninput = (e) => {
-            debouncedLoadCommonQueries(e.target.value.trim().toLowerCase());
+            debouncedLoadCommonQueries(e.target.value.trim());
         };
 
         globalSearch.onkeydown = (e) => {

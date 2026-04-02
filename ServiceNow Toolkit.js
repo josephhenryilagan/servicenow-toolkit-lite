@@ -1,12 +1,12 @@
 (function () {
-    if (window.location.hostname.endsWith('service-now.com')) {
+    const subdomain = window.location.hostname.replace('.service-now.com', '');
+    const excludedURLs = ['www', 'signon', 'sso', 'auth', 'angel', 'angeldemo', 'gld', 'clabs', 'developer', 'support'];
+    if (window.location.hostname.endsWith('service-now.com') && !excludedURLs.includes(subdomain)) {
         const currentOverlay = document.getElementById('sntk-modal-overlay');
         if (currentOverlay) {
             currentOverlay.remove();
             return;
         }
-
-        const subdomain = window.location.hostname.replace('.service-now.com', '');
         const overlay = document.createElement('div');
         const modal = document.createElement('div');
         overlay.id = 'sntk-modal-overlay';
@@ -38,14 +38,26 @@
         `;
 
         Object.assign(overlay.style, {
-            position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
-            backgroundColor: 'rgba(0,0,0,0.6)', zIndex: '1000', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(2px)',
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            zIndex: '1000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backdropFilter: 'blur(2px)',
             fontFamily: '-apple-system, "Segoe UI", "Helvetica Neue", Arial, Verdana, sans-serif'
         });
         Object.assign(modal.style, {
-            backgroundColor: 'white', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
-            maxWidth: '500px', width: '90%', padding: '0', overflow: 'hidden'
+            backgroundColor: 'white',
+            boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
+            maxWidth: '500px',
+            width: '90%',
+            padding: '0',
+            overflow: 'hidden'
         });
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
@@ -68,6 +80,7 @@
                     if (result === subdomain) {
                         alert('Enter a different subdomain');
                     } else {
+                        overlay.remove();
                         window.open(window.location.href.replace(window.location.hostname, result + '.service-now.com'), '_blank');
                     }
                 } else {

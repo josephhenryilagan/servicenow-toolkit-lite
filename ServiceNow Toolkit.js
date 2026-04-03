@@ -103,6 +103,8 @@
                     <ul style="list-style: none; padding: 0; margin: 0; font-weight: bold; font-size: 12px;">
                         <li style="padding: 5px 10px"><a href="${window.location.origin}/sys_update_set.do"
                             style="color: #032D42; text-decoration: none;" target="_blank">Create new update set ➚</a></li>
+                        <li style="padding: 5px 10px"><a href="${window.location.origin}/sys.scripts.modern.do"
+                            style="color: #032D42; text-decoration: none;" target="_blank">Background Script (sys.scripts.modern.do) ➚</a></li>
                         <li style="padding: 5px 10px"><a href="${window.location.origin}/cancel_my_transactions.do"
                             style="color: #032D42; text-decoration: none;" target="_blank">Cancel Transactions (cancel_my_transactions.do) ➚</a></li>
                         <li style="padding: 5px 10px; margin-top: 15px">SYSTEM TRANSACTIONS</li>

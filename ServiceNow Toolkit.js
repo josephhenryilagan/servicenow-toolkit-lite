@@ -50,6 +50,10 @@
                             <span id="search_sys_update_set_list" title="Search sys_update_set by name" style="cursor: pointer;">Run filter</span>
                         </li>
                         <li style="padding: 5px 10px;">
+                            <span id="search_sys_remote_update_set" title="Search sys_remote_update_set by name" style="margin-right: 15px; cursor: pointer;">Retrieved Update Sets</span>
+                            <span id="search_sys_remote_update_set_list" title="Search sys_remote_update_set by name" style="cursor: pointer;">Run filter</span>
+                        </li>
+                        <li style="padding: 5px 10px;">
                             <span id="search_sys_db_object" title="Search sys_db_object by name or label" style="margin-right: 15px; cursor: pointer;">Tables</span>
                             <span id="search_sys_db_object_list" title="Search sys_db_object by name or label" style="cursor: pointer;">Run filter</span>
                         </li>
@@ -344,6 +348,7 @@
 
         document.getElementById('search_sys_properties').onclick = () => extendedGlobalSearch('sys_properties');
         document.getElementById('search_sys_update_set').onclick = () => extendedGlobalSearch('sys_update_set');
+        document.getElementById('search_sys_remote_update_set').onclick = () => extendedGlobalSearch('sys_remote_update_set');
         document.getElementById('search_sys_script').onclick = () => extendedGlobalSearch('sys_script');
         document.getElementById('search_sysauto').onclick = () => extendedGlobalSearch('sysauto');
         document.getElementById('search_sys_script_include').onclick = () => extendedGlobalSearch('sys_script_include');
@@ -365,6 +370,16 @@
         document.getElementById('search_service_offering_list').onclick = () => extendedGlobalSearch('service_offering_list');
         document.getElementById('search_sc_cat_item_producer_list').onclick = () => extendedGlobalSearch('sc_cat_item_producer_list');
         document.getElementById('search_sys_user_group_list').onclick = () => extendedGlobalSearch('sys_user_group_list');
+
+        document.getElementById('search_sys_remote_update_set_list').onclick = () => {
+            const query = globalSearch.value.trim();
+            if (query == '') {
+                setSearchInputMsg('Search query is empty');
+            } else {
+                overlay.remove();
+                window.open(`${window.location.origin}/sys_remote_update_set_list.do?sysparm_fixed_query=sys_class_name=sys_remote_update_set&sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}`, '_blank');
+            }
+        };
 
         document.getElementById('search_sys_db_object').onclick = () => {
             const query = globalSearch.value.trim();

@@ -2,31 +2,31 @@
     const subdomain = window.location.hostname.replace('.service-now.com', '');
     const excludedURLs = ['www', 'signon', 'sso', 'auth', 'angel', 'angeldemo', 'gld', 'clabs', 'developer', 'support'];
     if (window.location.hostname.endsWith('service-now.com') && !excludedURLs.includes(subdomain)) {
-        const currentOverlay = document.getElementById('sntk-modal-overlay');
+        const currentOverlay = document.getElementById('sndt-modal-overlay');
         if (currentOverlay) {
             currentOverlay.remove();
             return;
         }
         const overlay = document.createElement('div');
         const modal = document.createElement('div');
-        overlay.id = 'sntk-modal-overlay';
+        overlay.id = 'sndt-modal-overlay';
 
         const globalSearchOptions = [
-            { id: 'sys_properties', label: 'System Properties', title: 'Search sys_properties by name' },
-            { id: 'sys_update_set', label: 'Local Update Sets', title: 'Search sys_update_set by name' },
-            { id: 'sys_remote_update_set', label: 'Retrieved Update Sets', title: 'Search sys_remote_update_set by name' },
-            { id: 'sys_db_object', label: 'Tables', title: 'Search sys_db_object by name or label' },
-            { id: 'sys_script', label: 'Business Rules', title: 'Search sys_script by name' },
-            { id: 'sysauto', label: 'Scheduled Jobs', title: 'Search sysauto by name' },
-            { id: 'sys_script_include', label: 'Script Includes', title: 'Search sys_script_include by name' },
-            { id: 'sysrule_assignment', label: 'Assignment Rules', title: 'Search sysrule_assignment by name' },
-            { id: 'sys_script_client', label: 'Client Scripts', title: 'Search sys_script_client by name' },
-            { id: 'sys_ui_action', label: 'UI Actions', title: 'Search sys_ui_action by name or action_name' },
-            { id: 'cmdb_ci_service_business', label: 'Business Services', title: 'Search cmdb_ci_service_business by name' },
-            { id: 'service_offering', label: 'Service Offerings', title: 'Search service_offering by name' },
-            { id: 'sc_cat_item_producer', label: 'Record Producers', title: 'Search sc_cat_item_producer by name' },
-            { id: 'sys_user_group', label: 'Groups', title: 'Search sys_user_group by name' },
-            { id: 'sys_user', label: 'Users', title: 'Search sys_user by name, user_name, or email' }
+            { id: 'sys_properties', label: 'System Properties ➚', title: 'Search sys_properties by name' },
+            { id: 'sys_update_set', label: 'Local Update Sets ➚', title: 'Search sys_update_set by name' },
+            { id: 'sys_remote_update_set', label: 'Retrieved Update Sets ➚', title: 'Search sys_remote_update_set by name' },
+            { id: 'sys_db_object', label: 'Tables ➚', title: 'Search sys_db_object by name or label' },
+            { id: 'sys_script', label: 'Business Rules ➚', title: 'Search sys_script by name' },
+            { id: 'sysauto', label: 'Scheduled Jobs ➚', title: 'Search sysauto by name' },
+            { id: 'sys_script_include', label: 'Script Includes ➚', title: 'Search sys_script_include by name' },
+            { id: 'sysrule_assignment', label: 'Assignment Rules ➚', title: 'Search sysrule_assignment by name' },
+            { id: 'sys_script_client', label: 'Client Scripts ➚', title: 'Search sys_script_client by name' },
+            { id: 'sys_ui_action', label: 'UI Actions ➚', title: 'Search sys_ui_action by name or action_name' },
+            { id: 'cmdb_ci_service_business', label: 'Business Services ➚', title: 'Search cmdb_ci_service_business by name' },
+            { id: 'service_offering', label: 'Service Offerings ➚', title: 'Search service_offering by name' },
+            { id: 'sc_cat_item_producer', label: 'Record Producers ➚', title: 'Search sc_cat_item_producer by name' },
+            { id: 'sys_user_group', label: 'Groups ➚', title: 'Search sys_user_group by name' },
+            { id: 'sys_user', label: 'Users ➚', title: 'Search sys_user by name, user_name, or email' }
         ];
 
         const shortcutLinks = [
@@ -59,9 +59,9 @@
 
         modal.innerHTML = `
             <div style="background-color: #032D42; color: white; padding: 20px 30px 19px 30px; font-weight: 600; font-size: 17px; line-height: 1.2;">
-                <a href="https://sites.google.com/view/servicenow-toolkit" target="_blank"
+                <a href="https://sites.google.com/view/sn-devtools" target="_blank"
                     style="color: white; text-decoration: none; cursor: pointer;">
-                    ServiceNow Toolkit
+                    SN DevTools
                 </a>
             </div>
             <div style="padding: 25px; background: #F5F5F5;">
@@ -73,25 +73,25 @@
                     </p>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center;">
-                    <input type="text" id="sntk-search-input" placeholder="Global Search" list="common-queries" style="flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 25px; font-size: 12px; font-weight: bold; font-family: inherit; outline: none; color: #333;" />
+                    <input type="text" id="sndt-search-input" placeholder="Global Search" list="common-queries" style="flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 25px; font-size: 12px; font-weight: bold; font-family: inherit; outline: none; color: #333;" />
                     <datalist id="common-queries"></datalist>
-                    <button id="sntk-search-btn" title="Global Search\nPress Enter\n\n- Record numbers (e. g. INC0000001, CHG0000001)\n- Table processors (e. g. task.LIST, task.FILTER, task.DO, task.CONFIG)\n- Users (Search by email)\n- Dictionary Entries (Search by table.field)\n- Text search"
+                    <button id="sndt-search-btn" title="Global Search\nPress Enter\n\n- Record numbers (e. g. INC0000001, CHG0000001)\n- Table processors (e. g. task.LIST, task.FILTER, task.DO, task.CONFIG)\n- Users (Search by email)\n- Dictionary Entries (Search by table.field)\n- Text search"
                         style="background-color: #032D42; color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 12px; font-weight: bold; font-family: inherit;">
                         SEARCH
                     </button>
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <span id="searchInputMsg" style="display: none; font-size: 10px; font-weight: bold; color: #dc3545; margin: 8px 0px 0px 15px;">Search query is empty</span>
-                    <span id="extendedGlobalSearch" title="Extended Global Search\nPress Shift + Enter\n\n- ServiceNow Search Engine\n- System Properties (Search by name)\n- Local Update Sets (Search by name)\n- Retrieved Update Sets (Search by name)\n- Tables (Search by name or label)\n- Business Rules (Search by name)\n- Scheduled Jobs (Search by name)\n- Script Includes (Search by name)\n- Assignment Rules (Search by name)\n- Client Scripts (Search by name)\n- UI Actions (Search by name or action_name)\n- Service Offerings (Search by name)\n- Record Producers (Search by name)\n- Groups (Search by name)\n- Users (Search by name, user_name, or email)"
+                    <span id="extendedGlobalSearch" title="Extended Global Search\nPress Shift + Enter\n\n- Search ServiceNow Documentation\n- System Properties (Search by name)\n- Local Update Sets (Search by name)\n- Retrieved Update Sets (Search by name)\n- Tables (Search by name or label)\n- Business Rules (Search by name)\n- Scheduled Jobs (Search by name)\n- Script Includes (Search by name)\n- Assignment Rules (Search by name)\n- Client Scripts (Search by name)\n- UI Actions (Search by name or action_name)\n- Service Offerings (Search by name)\n- Record Producers (Search by name)\n- Groups (Search by name)\n- Users (Search by name, user_name, or email)"
                         style="font-size: 10px; font-weight: bold; color: #032D42; margin: 8px 15px 0px auto; cursor: pointer;">Global Search Options</span>
                 </div>
                 <div id="extendedGlobalSearchDiv" style="display: none; margin-top: 15px; max-height: 300px; overflow-y: auto; color: #032D42;">
                     <ul style="list-style: none; padding: 0; margin: 0; font-weight: bold; font-size: 12px; text-align: right;">
-                        <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">ServiceNow Search Engine</li>
+                        <li id="servicenow_search_engine" style="padding: 5px 10px; cursor: pointer;" title="Search the official ServiceNow documentation and community forums">Search ServiceNow Documentation ➚</li>
                         ${globalSearchOptions.map(item => `
                             <li style="padding: 5px 10px;">
                                 <span id="search_${item.id}" title="${item.title}" style="margin-right: 15px; cursor: pointer;">${item.label}</span>
-                                <span id="search_${item.id}_list" title="${item.title}" style="cursor: pointer;">Run filter</span>
+                                <span id="search_${item.id}_list" title="${item.title}" style="cursor: pointer;">Run filter ➚</span>
                             </li>
                         `).join('')}
                     </ul>
@@ -134,7 +134,7 @@
 
         overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
-        const globalSearch = document.getElementById('sntk-search-input');
+        const globalSearch = document.getElementById('sndt-search-input');
         globalSearch.focus();
 
         const SUBDOMAIN_REGEX = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/i;
@@ -231,7 +231,7 @@
             searchInputMsg.textContent = message;
         }
 
-        document.getElementById('sntk-search-btn').onclick = () => {
+        document.getElementById('sndt-search-btn').onclick = () => {
             const query = globalSearch.value.trim().toLowerCase();
             if (query) {
                 let newURL = null;
@@ -495,7 +495,7 @@
                 if (e.shiftKey) {
                     toggleExtendedGlobalSearch();
                 } else {
-                    document.getElementById('sntk-search-btn').click();
+                    document.getElementById('sndt-search-btn').click();
                 }
             }
         };

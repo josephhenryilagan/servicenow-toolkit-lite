@@ -124,7 +124,7 @@
         Object.assign(modal.style, {
             backgroundColor: 'white',
             boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
-            maxWidth: '500px',
+            maxWidth: '450px',
             width: '90%',
             padding: '0',
             overflow: 'hidden'
@@ -137,6 +137,7 @@
         const globalSearch = document.getElementById('sndt-search-input');
         globalSearch.focus();
 
+        const SYSID_REGEX = /^[0-9a-f]{32}$/i;
         const SUBDOMAIN_REGEX = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/i;
         const TABLE_REGEX = /^(?:[a-z_][a-z0-9_]*)(?:\.do|_list\.do)$/;
         const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -150,7 +151,6 @@
                     if (result === subdomain) {
                         alert('Enter a different subdomain');
                     } else {
-                        overlay.remove();
                         window.open(window.location.href.replace(window.location.hostname, result + '.service-now.com'), '_blank');
                     }
                 } else {
@@ -233,9 +233,13 @@
 
         document.getElementById('sndt-search-btn').onclick = () => {
             const query = globalSearch.value.trim().toLowerCase();
-            if (query) {
+            if (query == '') {
+                setSearchInputMsg('Search query is empty');
+            } else {
                 let newURL = null;
-                if (EMAIL_REGEX.test(query)) {
+                if (SYSID_REGEX.test(query)) {
+                    setSearchInputMsg('Sys ID search is not available');
+                } else if (EMAIL_REGEX.test(query)) {
                     newURL = `${window.location.origin}/sys_user.do?sysparm_query=email=${encodeURIComponent(query)}^ORuser_name=${encodeURIComponent(query)}`;
                 } else if (TABLE_REGEX.test(query)) {
                     newURL = `${window.location.origin}/${query}`;
@@ -268,13 +272,9 @@
                 } else {
                     newURL = getTextSearchURL(window.location.origin, query);
                 }
-                setSearchInputMsg();
                 if (newURL) {
-                    overlay.remove();
                     window.open(newURL, '_blank');
                 }
-            } else {
-                setSearchInputMsg('Search query is empty');
             }
         };
 
@@ -300,7 +300,6 @@
             if (query == '') {
                 setSearchInputMsg('Search query is empty');
             } else {
-                overlay.remove();
                 window.open(`https://cse.google.com/cse?cx=e2f9fd84159ae4672&q=${encodeURIComponent(query)}&hl=en`, '_blank');
             }
         };
@@ -309,13 +308,11 @@
             const query = globalSearch.value.trim();
             if (query == '') {
                 if (table.endsWith('_list')) {
-                    overlay.remove();
                     window.open(`${window.location.origin}/${table}.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
                 } else {
                     setSearchInputMsg('Search query is empty');
                 }
             } else {
-                overlay.remove();
                 if (table.endsWith('_list')) {
                     window.open(`${window.location.origin}/${table}.do?sysparm_filter_pinned=true&sysparm_query=nameLIKE${encodeURIComponent(query)}`, '_blank');
                 } else {
@@ -351,7 +348,6 @@
 
         document.getElementById('search_sys_remote_update_set_list').onclick = () => {
             const query = globalSearch.value.trim();
-            overlay.remove();
             if (query == '') {
                 window.open(`${window.location.origin}/sys_remote_update_set_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
             } else {
@@ -364,13 +360,11 @@
             if (query == '') {
                 setSearchInputMsg('Search query is empty');
             } else {
-                overlay.remove();
                 window.open(`${window.location.origin}/sys_db_object.do?sysparm_query=name=${encodeURIComponent(query)}^ORlabel=${encodeURIComponent(query)}`, '_blank');
             }
         };
         document.getElementById('search_sys_db_object_list').onclick = () => {
             const query = globalSearch.value.trim();
-            overlay.remove();
             if (query == '') {
                 window.open(`${window.location.origin}/sys_db_object_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
             } else {
@@ -383,13 +377,11 @@
             if (query == '') {
                 setSearchInputMsg('Search query is empty');
             } else {
-                overlay.remove();
                 window.open(`${window.location.origin}/sys_ui_action.do?sysparm_query=name=${encodeURIComponent(query)}^ORaction_name=${encodeURIComponent(query)}`, '_blank');
             }
         };
         document.getElementById('search_sys_ui_action_list').onclick = () => {
             const query = globalSearch.value.trim();
-            overlay.remove();
             if (query == '') {
                 window.open(`${window.location.origin}/sys_ui_action_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
             } else {
@@ -402,13 +394,11 @@
             if (query == '') {
                 setSearchInputMsg('Search query is empty');
             } else {
-                overlay.remove();
                 window.open(`${window.location.origin}/sys_user.do?sysparm_query=name=${encodeURIComponent(query)}^ORuser_name=${encodeURIComponent(query)}^ORemail=${encodeURIComponent(query)}`, '_blank');
             }
         };
         document.getElementById('search_sys_user_list').onclick = () => {
             const query = globalSearch.value.trim();
-            overlay.remove();
             if (query == '') {
                 window.open(`${window.location.origin}/sys_user_list.do?sysparm_filter_only=true&sysparm_filter_pinned=true`, '_blank');
             } else {
@@ -483,11 +473,6 @@
             const query = e.target.value.trim();
             debouncedLoadCommonQueries(query);
             setSearchInputMsg();
-            if (query == '') {
-                document.getElementById('extendedGlobalSearch').style.display = 'none';
-            } else {
-                document.getElementById('extendedGlobalSearch').style.display = 'block';
-            }
         };
 
         globalSearch.onkeydown = (e) => {
@@ -499,6 +484,19 @@
                 }
             }
         };
+
+        const elements = document.querySelectorAll('#sndt-modal-overlay *');
+        elements.forEach((element) => {
+            const isTextInput = element.tagName === 'INPUT' && element.type === 'text';
+            const isTextArea = element.tagName === 'TEXTAREA';
+            if (!isTextInput && !isTextArea) {
+                element.style.webkitUserSelect = 'none';
+                element.style.userSelect = 'none';
+            } else {
+                element.style.webkitUserSelect = 'auto';
+                element.style.userSelect = 'auto';
+            }
+        });
     } else {
         alert("You're not in a service-now.com instance");
     }
